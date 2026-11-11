@@ -1,3 +1,4 @@
+import { Redirect } from "expo-router";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useMSJs, type User } from "../../hooks/UseMSJs";
@@ -11,13 +12,14 @@ interface TicketsProps {
 
 const simulatedFiles = ["apuntes-clase.pdf", "captura-ejercicio.png", "borrador.docx"];
 
-export default function Tickets({ teachers, initialTeacherId, onCreated, onCancel }: TicketsProps) {
+export default function Tickets({ teachers, initialTeacherId, onCreated, onCancel }: TicketsProps = { teachers: [], onCreated: () => {}, onCancel: () => {} }) {
 	const { currentUser, createTicket, tickets } = useMSJs();
 	const [teacherId, setTeacherId] = useState(initialTeacherId ?? teachers.find((teacher) => teacher.isAvailable)?.id ?? teachers[0]?.id ?? "");
 	const [subject, setSubject] = useState("");
 	const [description, setDescription] = useState("");
 	const [attachments, setAttachments] = useState<string[]>([]);
 	const [error, setError] = useState("");
+	if (!currentUser) return <Redirect href="/" />;
 	const teacher = teachers.find((item) => item.id === teacherId);
 	const queueLength = tickets.filter((ticket) => ticket.teacherId === teacherId && ticket.status === "En espera").length;
 

@@ -6,7 +6,7 @@ interface DirectoryProps {
 	onCreateTicket: (teacherId: string) => void;
 }
 
-export default function Screen({ teachers, onCreateTicket }: DirectoryProps) {
+export default function Screen({ teachers, onCreateTicket }: DirectoryProps = { teachers: [], onCreateTicket: () => {} }) {
 	const availableCount = teachers.filter((teacher) => teacher.isAvailable).length;
 
 	return (

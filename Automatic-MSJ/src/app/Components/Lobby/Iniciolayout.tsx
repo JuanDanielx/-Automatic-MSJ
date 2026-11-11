@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from "react";
+import { Redirect } from "expo-router";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import type { User } from "../../hooks/UseMSJs";
 
@@ -18,7 +19,9 @@ const tabs: { id: MainTab; label: string; glyph: string }[] = [
 	{ id: "perfil", label: "Perfil", glyph: "◉" },
 ];
 
-export default function Iniciolayout({ user, activeTab, pendingCount, onNavigate, onLogout, children }: IniciolayoutProps) {
+export default function Iniciolayout(props?: IniciolayoutProps) {
+	if (!props?.user) return <Redirect href="/" />;
+	const { user, activeTab, pendingCount, onNavigate, onLogout, children } = props;
 	const visibleTabs = user.role === "Docente"
 		? [{ id: "bandeja" as const, label: "Atención", glyph: "▤" }, { id: "perfil" as const, label: "Perfil", glyph: "◉" }]
 		: tabs;

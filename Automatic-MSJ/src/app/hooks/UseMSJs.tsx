@@ -1,4 +1,5 @@
 import { createContext, useContext, useMemo, useState, type PropsWithChildren } from "react";
+import { Redirect } from "expo-router";
 
 export type UserRole = "Estudiante" | "Docente";
 export type TicketStatus = "En espera" | "En revisión" | "Respondido" | "Cerrado";
@@ -129,7 +130,7 @@ export function AppProvider({ children }: PropsWithChildren) {
 			setTickets((current) => current.map((ticket) => ticket.id === ticketId
 				? {
 						...ticket,
-						messages: [...ticket.messages, { ...message, id: `message-${Date.now()}`, ticketId, createdAt: timestamp }],
+						messages: [...ticket.messages, { ...message, id: `message-${Date.now()}-${ticket.messages.length}`, ticketId, createdAt: timestamp }],
 						updatedAt: timestamp,
 						status: message.senderRole === "Docente" ? "Respondido" : ticket.status,
 					}
@@ -144,4 +145,8 @@ export function useMSJs() {
 	const context = useContext(AppContext);
 	if (!context) throw new Error("useMSJs debe usarse dentro de AppProvider.");
 	return context;
+}
+
+export default function UseMSJsRoute() {
+	return <Redirect href="/" />;
 }

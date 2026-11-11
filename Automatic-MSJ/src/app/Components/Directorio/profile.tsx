@@ -1,3 +1,4 @@
+import { Redirect } from "expo-router";
 import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import type { User } from "../../hooks/UseMSJs";
 
@@ -7,7 +8,9 @@ interface ProfileProps {
 	onToggleAvailability: () => void;
 }
 
-export default function Profile({ user, activeTicketCount, onToggleAvailability }: ProfileProps) {
+export default function Profile(props?: ProfileProps) {
+	if (!props?.user) return <Redirect href="/" />;
+	const { user, activeTicketCount, onToggleAvailability } = props;
 	const isTeacher = user.role === "Docente";
 	const available = Boolean(user.isAvailable);
 

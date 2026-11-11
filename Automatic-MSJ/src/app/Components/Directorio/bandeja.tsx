@@ -11,7 +11,7 @@ interface InboxProps {
 
 const filters: (TicketStatus | "Todas")[] = ["Todas", "En espera", "En revisión", "Respondido", "Cerrado"];
 
-export default function Bandeja({ role, tickets, queuePosition, onSelectTicket }: InboxProps) {
+export default function Bandeja({ role, tickets, queuePosition, onSelectTicket }: InboxProps = { role: "Estudiante", tickets: [], queuePosition: () => 0, onSelectTicket: () => {} }) {
 	const [filter, setFilter] = useState<TicketStatus | "Todas">("Todas");
 	const visibleTickets = tickets.filter((ticket) => filter === "Todas" || ticket.status === filter)
 		.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));

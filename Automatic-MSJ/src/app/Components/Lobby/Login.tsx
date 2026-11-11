@@ -7,7 +7,7 @@ interface LoginProps {
 	onLogin: (role: UserRole, name: string, teacherId?: string) => void;
 }
 
-export default function Login({ teachers, onLogin }: LoginProps) {
+export default function Login({ teachers, onLogin }: LoginProps = { teachers: [], onLogin: () => {} }) {
 	const [role, setRole] = useState<UserRole>("Estudiante");
 	const [name, setName] = useState("");
 	const [teacherId, setTeacherId] = useState(teachers[0]?.id ?? "");

@@ -49,7 +49,13 @@ export default function Index() {
   const pendingCount = myTickets.filter((ticket) => ticket.status === "En espera").length;
 
   return (
-    <Iniciolayout user={currentUser} activeTab={activeTab} pendingCount={pendingCount} onNavigate={navigate} onLogout={() => { logout(); clearSelection(); }}>
+    <Iniciolayout user={currentUser} activeTab={activeTab} pendingCount={pendingCount} onNavigate={navigate} onLogout={() => {
+      logout();
+      clearSelection();
+      setIsCreatingTicket(false);
+      setPreferredTeacherId(undefined);
+      setActiveTab("directorio");
+    }}>
       {selectedTicket ? (
         <ChatLayout ticketId={selectedTicket.id} onBack={() => clearSelection()} onClosed={() => clearSelection()} />
       ) : isCreatingTicket ? (

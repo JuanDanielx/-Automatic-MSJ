@@ -1,3 +1,4 @@
+import { Redirect } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useMSJs } from "../../hooks/UseMSJs";
 import { StatusBadge } from "../Directorio/bandeja";
@@ -9,10 +10,10 @@ interface ChatLayoutProps {
 	onClosed: () => void;
 }
 
-export default function ChatLayout({ ticketId, onBack, onClosed }: ChatLayoutProps) {
+export default function ChatLayout({ ticketId, onBack, onClosed }: ChatLayoutProps = { ticketId: "", onBack: () => {}, onClosed: () => {} }) {
 	const { currentUser, tickets, setTicketStatus } = useMSJs();
 	const ticket = tickets.find((item) => item.id === ticketId);
-	if (!ticket || !currentUser) return null;
+	if (!ticket || !currentUser) return <Redirect href="/" />;
 
 	const isTeacher = currentUser.role === "Docente";
 	const counterpart = isTeacher ? ticket.studentName : ticket.teacherName;

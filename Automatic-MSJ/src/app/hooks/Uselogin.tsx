@@ -1,3 +1,4 @@
+import { Redirect } from "expo-router";
 import { useMSJs, type User, type UserRole } from "./UseMSJs";
 
 export function useLogin() {
@@ -9,9 +10,10 @@ export function useLogin() {
 			: undefined;
 		const cleanName = name.trim();
 		const studentName = cleanName || "Valentina Cruz";
-		const studentId = cleanName
-			? `student-${cleanName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`
-			: "student-demo";
+		const normalizedName = studentName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+		const studentId = normalizedName === "valentina cruz"
+			? "student-demo"
+			: `student-${normalizedName.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
 		const user: User = teacher
 			? { ...teacher, name: cleanName || teacher.name }
 			: {
@@ -26,4 +28,8 @@ export function useLogin() {
 	};
 
 	return { currentUser, login, logout: () => setCurrentUser(null), teachers };
+}
+
+export default function UseLoginRoute() {
+	return <Redirect href="/" />;
 }

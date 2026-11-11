@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { Redirect } from "expo-router";
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useMSJs, type Ticket } from "../../hooks/UseMSJs";
 
-export default function Chat({ ticket }: { ticket: Ticket }) {
+export default function Chat({ ticket }: { ticket?: Ticket } = {}) {
 	const { currentUser, addMessage } = useMSJs();
 	const [draft, setDraft] = useState("");
+	if (!ticket) return <Redirect href="/" />;
 	const isClosed = ticket.status === "Cerrado";
 
 	const send = () => {
