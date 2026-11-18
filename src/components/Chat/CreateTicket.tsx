@@ -1,7 +1,12 @@
 import { Redirect } from "expo-router";
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { useMSJs, type User } from "../../hooks/UseMSJs";
+import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+/**
+ * Formulario para crear una consulta y añadir adjuntos simulados.
+ */
+import { useAppContext } from "@/context/AppProvider";
+import type { User } from "@/types/app";
+import styles from "@/components/Chat/CreateTicket.styles";
 
 interface TicketsProps {
 	teachers: User[];
@@ -12,8 +17,8 @@ interface TicketsProps {
 
 const simulatedFiles = ["apuntes-clase.pdf", "captura-ejercicio.png", "borrador.docx"];
 
-export default function Tickets({ teachers, initialTeacherId, onCreated, onCancel }: TicketsProps = { teachers: [], onCreated: () => {}, onCancel: () => {} }) {
-	const { currentUser, createTicket, tickets } = useMSJs();
+export default function CreateTicket({ teachers, initialTeacherId, onCreated, onCancel }: TicketsProps = { teachers: [], onCreated: () => {}, onCancel: () => {} }) {
+	const { currentUser, createTicket, tickets } = useAppContext();
 	const [teacherId, setTeacherId] = useState(initialTeacherId ?? teachers.find((teacher) => teacher.isAvailable)?.id ?? teachers[0]?.id ?? "");
 	const [subject, setSubject] = useState("");
 	const [description, setDescription] = useState("");
@@ -65,48 +70,3 @@ export default function Tickets({ teachers, initialTeacherId, onCreated, onCance
 	);
 }
 
-const styles = StyleSheet.create({
-	topRow: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 17 },
-	back: { width: 34, height: 34, borderRadius: 17, backgroundColor: "#E9F0E7", alignItems: "center", justifyContent: "center" },
-	backGlyph: { marginTop: -4, color: "#315D50", fontSize: 27 },
-	topCopy: { flex: 1 },
-	kicker: { color: "#819088", fontSize: 8, fontWeight: "800", letterSpacing: 1.3 },
-	title: { marginTop: 3, color: "#17332E", fontSize: 20, fontWeight: "800" },
-	label: { marginTop: 14, marginBottom: 7, color: "#74837A", fontSize: 9, fontWeight: "800", letterSpacing: 1 },
-	teachers: { gap: 7, paddingBottom: 3 },
-	teacherChoice: { width: 90, height: 78, padding: 8, borderRadius: 6, backgroundColor: "#FFFFFF", borderWidth: 1, borderColor: "#E1E8E2" },
-	teacherChoiceActive: { borderColor: "#568071", backgroundColor: "#F0F5EF" },
-	teacherLine: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-	teacherInitials: { color: "#315D50", fontSize: 11, fontWeight: "900" },
-	dot: { width: 7, height: 7, borderRadius: 4 },
-	dotOn: { backgroundColor: "#87A448" },
-	dotOff: { backgroundColor: "#C2CBC4" },
-	teacherName: { marginTop: 8, color: "#344B40", fontSize: 10, fontWeight: "800" },
-	teacherSubject: { marginTop: 2, color: "#829087", fontSize: 8 },
-	queueHint: { minHeight: 35, marginTop: 8, paddingHorizontal: 10, borderRadius: 5, backgroundColor: "#F0F4E9", flexDirection: "row", alignItems: "center", gap: 7 },
-	queueGlyph: { color: "#76883D", fontSize: 13 },
-	queueText: { flex: 1, color: "#68776B", fontSize: 9 },
-	queueOrder: { color: "#536A50", fontSize: 10, fontWeight: "800" },
-	input: { minHeight: 43, paddingHorizontal: 11, borderRadius: 5, borderWidth: 1, borderColor: "#DCE5DE", backgroundColor: "#FFFFFF", color: "#30483D", fontSize: 11 },
-	descriptionInput: { minHeight: 106, paddingTop: 10 },
-	fieldFoot: { flexDirection: "row", justifyContent: "space-between", gap: 8, marginTop: 5 },
-	helper: { flex: 1, color: "#8A9690", fontSize: 9 },
-	charCount: { color: "#929D96", fontSize: 8 },
-	optional: { color: "#A2ACA5", fontSize: 8, fontWeight: "600" },
-	attachments: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
-	attachment: { maxWidth: "100%", minHeight: 32, paddingHorizontal: 8, borderRadius: 5, backgroundColor: "#E8F0E7", flexDirection: "row", alignItems: "center", gap: 6 },
-	fileGlyph: { color: "#5E7D67", fontSize: 12 },
-	fileName: { maxWidth: 180, color: "#526F5F", fontSize: 9, fontWeight: "700" },
-	removeFile: { color: "#7F8F84", fontSize: 17 },
-	attachButton: { minHeight: 32, paddingHorizontal: 9, borderRadius: 5, borderWidth: 1, borderStyle: "dashed", borderColor: "#C4D0C6", flexDirection: "row", alignItems: "center", gap: 5 },
-	attachGlyph: { color: "#557765", fontSize: 15 },
-	attachText: { color: "#657B6C", fontSize: 9, fontWeight: "700" },
-	simulatedNote: { marginTop: 5, color: "#98A39C", fontSize: 8 },
-	error: { marginTop: 10, color: "#A33E35", fontSize: 10, fontWeight: "700" },
-	actions: { flexDirection: "row", justifyContent: "flex-end", alignItems: "center", gap: 8, marginTop: 18 },
-	cancel: { minHeight: 42, paddingHorizontal: 14, borderRadius: 5, alignItems: "center", justifyContent: "center" },
-	cancelText: { color: "#75837B", fontSize: 10, fontWeight: "700" },
-	submit: { minHeight: 42, minWidth: 132, paddingHorizontal: 12, borderRadius: 5, backgroundColor: "#173F38", flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-	submitText: { color: "#FFFFFF", fontSize: 10, fontWeight: "800" },
-	submitArrow: { color: "#D3E76B", fontSize: 17 },
-});

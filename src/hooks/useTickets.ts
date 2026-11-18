@@ -1,8 +1,12 @@
-import { Redirect } from "expo-router";
-import { useMSJs, type Ticket, type TicketStatus } from "./UseMSJs";
+/**
+ * Expone los tickets visibles para el usuario actual y sus operaciones.
+ */
+
+import { useAppContext } from "@/context/AppProvider";
+import type { Ticket, TicketStatus } from "@/types/app";
 
 export function useTickets() {
-  const { currentUser, teachers, tickets, createTicket, setTicketStatus, toggleAvailability } = useMSJs();
+  const { currentUser, teachers, tickets, createTicket, setTicketStatus, toggleAvailability } = useAppContext();
 
   const myTickets = currentUser
     ? currentUser.role === "Docente"
@@ -27,8 +31,4 @@ export function useTickets() {
     setAvailability: toggleAvailability,
     getQueuePosition,
   };
-}
-
-export default function UseTicketsRoute() {
-  return <Redirect href="/" />;
 }
